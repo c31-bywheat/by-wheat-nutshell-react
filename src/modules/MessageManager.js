@@ -1,4 +1,4 @@
-import { getEnabledCategories } from "trace_events";
+// import { getEnabledCategories } from "trace_events";
 
 const apiURL = "http://localhost:5002"
 
@@ -9,6 +9,7 @@ export default {
     },
     getOne(id) {
         return fetch(`${apiURL}/messages/${id}`)
+        .then(message => message.json())
     },
     deleteMessage(id) {
         return fetch(`${apiURL}/messages/${id}`, {
