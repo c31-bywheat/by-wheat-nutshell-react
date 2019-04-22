@@ -2,20 +2,44 @@ import { Route } from "react-router-dom";
 import React, { Component } from "react";
 import EventsList from "./events/EventsList"
 import EventManager from "../modules/EventManager";
+import MessageList from "./messages/MessageList";
+import MessageManager from "../modules/MessageManager"
 
-export default class ApplicationViews extends Component {
-    state = {
-      users: [],
-      messages: [],
-      articles: [],
-      friends: [],
-      tasks: [],
-      events: []
-    };
     componentDidMount() {
         const newState = {};
         EventManager.getAll().then(events => (newState.events = events));
     }
+
+
+
+export default class ApplicationViews extends Component {
+
+
+  state = {
+    "users": [],
+    "messages": [],
+    "articles": [],
+    "friends": [],
+    "tasks": [],
+    "events": []
+   }
+
+   componentDidMount() {
+    MessageManager.getAll().then(allMessages => {
+      this.setState({
+        messages: allMessages
+        
+      })
+      
+    })
+     EventManager.getAll().then(events => {
+       this.setState({
+         events: events
+       })
+     })
+   }
+  
+
   render() {
     return (
       <React.Fragment>
@@ -43,7 +67,7 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/messages" render={props => {
-            return null
+            return <MessageList messages={this.state.messages} deleteMessage={this.deleteMessage}/>
             // Remove null and return the component which will show the messages
           }}
         />
