@@ -1,8 +1,21 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
+import EventsList from "./events/EventsList"
+import EventManager from "../modules/EventManager";
 
 export default class ApplicationViews extends Component {
-
+    state = {
+      users: [],
+      messages: [],
+      articles: [],
+      friends: [],
+      tasks: [],
+      events: []
+    };
+    componentDidMount() {
+        const newState = {};
+        EventManager.getAll().then(events => (newState.events = events));
+    }
   render() {
     return (
       <React.Fragment>
