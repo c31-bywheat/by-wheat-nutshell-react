@@ -1,23 +1,40 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
 import NewsList from "./news/NewsList";
-import NewsManager from "../modules/NewsManager"
+import NewsManager from "../modules/NewsManager";
+import EventsList from "./events/EventsList";
+import EventManager from "../modules/EventManager";
+import MessageList from "./messages/MessageList";
+import MessageManager from "../modules/MessageManager"
+
+
+
 
 export default class ApplicationViews extends Component {
 
+
   state = {
-    events: [],
-    articles: [],
-    tasks: [],
-    messages: [],
-    friends: [],
-    users: []
+    "users": [],
+    "messages": [],
+    "articles": [],
+    "friends": [],
+    "tasks": [],
+    "events": []
+   }
 
-}
+   componentDidMount() {
+    MessageManager.getAll().then(allMessages => {
+      this.setState({
+        messages: allMessages
 
-componentDidMount() {
-
-  NewsManager.getAllNews().then(allNews => {
+      })
+    })
+     EventManager.getAll().then(events => {
+       this.setState({
+         events: events
+       })
+     })
+     NewsManager.getAllNews().then(allNews => {
       this.setState({
           articles: allNews
       })
@@ -31,7 +48,8 @@ componentDidMount() {
           articles: articles
         })
       )
-    }
+
+   }
 
 
   render() {
@@ -40,7 +58,7 @@ componentDidMount() {
 
         <Route
           exact path="/login" render={(props) => {
-            return null 
+            return null
             // Remove null and return the component which will handle authentication
           }}
         />
@@ -62,7 +80,7 @@ componentDidMount() {
 
         <Route
           path="/messages" render={props => {
-            return null
+            return <MessageList messages={this.state.messages} deleteMessage={this.deleteMessage}/>
             // Remove null and return the component which will show the messages
           }}
         />
