@@ -26,7 +26,7 @@ export default class EventsForm extends Component {
         location: this.state.location,
         date: this.state.date,
         // Make sure the eventId is saved to the database
-        employeeId: parseInt(this.state.eventsId)
+        eventId: parseInt(this.state.eventsId)
       };
 
       // Create the events and redirect user to events list
