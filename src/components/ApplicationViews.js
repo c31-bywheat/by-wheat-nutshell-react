@@ -1,9 +1,12 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
-// import EventsList from "./events/EventsList"
+import NewMessage from "./messages/NewMessage"
+import NewsList from "./news/NewsList";
+import NewsManager from "../modules/NewsManager";
+// import EventsList from "./events/EventsList";
 import EventManager from "../modules/EventManager";
 import MessageManager from "../modules/MessageManager"
-import NewMessage from "./messages/NewMessage"
+import NewsForm from "../components/news/NewsForm"
 import MessageEditForm from "./messages/MessageEditForm"
 
 
@@ -33,7 +36,15 @@ export default class ApplicationViews extends Component {
         events: events
       })
     })
+     NewsManager.getAllNews().then(allNews => {
+      this.setState({
+          articles: allNews
+      })
+
+    })
   }
+
+
               deleteMessage = (id) => {
                 return MessageManager.deleteMessage(id)
                 .then(messages => this.setState({
@@ -60,7 +71,27 @@ export default class ApplicationViews extends Component {
                   })
                 });
               };  
-  
+
+                deleteNews = (id) => {
+                return NewsManager.removeAndListNews(id)
+                .then(articles => this.setState({
+          articles: articles
+        })
+      )
+
+   }
+
+   addNews = news => {
+    return NewsManager.post(news)
+    .then(() => NewsManager.getAllNews())
+    .then(articles =>
+      this.setState({
+        articles: articles
+      })
+    )
+   }
+
+
 
   render() {
     return (
@@ -75,11 +106,21 @@ export default class ApplicationViews extends Component {
 
         <Route
           exact path="/" render={props => {
-            return null
+            return <NewsList {...props}
+            deleteNews={this.deleteNews}
+            addNews={this.addNews}
+            articles={this.state.articles} />
             // Remove null and return the component which will show news articles
           }}
         />
 
+        <Route
+          exact path="/articles/new" render={props => {
+            return <NewsForm {...props} articles={this.state.articles}
+            addNews={this.addNews} />
+          }
+        }
+        />
         <Route
           path="/friends" render={props => {
             return null
