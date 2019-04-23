@@ -3,11 +3,11 @@
 const apiURL = "http://localhost:5002"
 
 export default {
-    getAll() {
+    getAllMessages() {
         return fetch(`${apiURL}/messages`)
         .then(messages => messages.json())
     },
-    getOne(id) {
+    getOneMessage(id) {
         return fetch(`${apiURL}/messages/${id}`)
         .then(message => message.json())
     },
@@ -16,6 +16,7 @@ export default {
             method: "DELETE"
         })
         .then(message => message.json())
+        .then(() => this.getAllMessages())
     },
     postMessage(newMessage) {
         return fetch(`${apiURL}/messages`, {
