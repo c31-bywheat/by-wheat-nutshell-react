@@ -1,5 +1,6 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
+import NewMessage from "./messages/NewMessage"
 import NewsList from "./news/NewsList";
 import NewsManager from "../modules/NewsManager";
 import EventsList from "./events/EventsList";
@@ -7,8 +8,6 @@ import EventsForm from "./events/EventsForm"
 import EventManager from "../modules/EventManager";
 import MessageList from "./messages/MessageList";
 import MessageManager from "../modules/MessageManager"
-
-
 
 
 export default class ApplicationViews extends Component {
@@ -24,7 +23,7 @@ export default class ApplicationViews extends Component {
    }
 
    componentDidMount() {
-    MessageManager.getAll().then(allMessages => {
+    MessageManager.getAllMessages().then(allMessages => {
       this.setState({
         messages: allMessages
 
@@ -42,10 +41,28 @@ export default class ApplicationViews extends Component {
 
     })
   }
+     
+  }
+              deleteMessage = (id) => {
+                return MessageManager.deleteMessage(id)
+                .then(messages => this.setState({
+                  messages: messages
+                }))
+              }
 
-  deleteNews = (id) => {
-      return NewsManager.removeAndListNews(id)
-      .then(articles => this.setState({
+              postMessage = (message) => {
+                return MessageManager.postMessage(message)
+                .then(() => MessageManager.getAllMessages())
+                .then(messages =>
+                  this.setState({
+                    messages:messages
+                  })
+                  )
+              }
+
+                deleteNews = (id) => {
+                return NewsManager.removeAndListNews(id)
+                .then(articles => this.setState({
           articles: articles
         })
       )
@@ -97,7 +114,8 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/messages" render={props => {
-            return <MessageList messages={this.state.messages} deleteMessage={this.deleteMessage}/>
+            return <NewMessage messages={this.state.messages} deleteMessage={this.deleteMessage}
+            postMessage={this.postMessage} makeNewMessage={this.makeNewMessage}/>
             // Remove null and return the component which will show the messages
           }}
         />
@@ -122,6 +140,10 @@ export default class ApplicationViews extends Component {
             // Remove null and return the component which will show the user's tasks
           }}
         />
+        {/* <Route path="/messages/new" render={(props) => {
+                    return <NewMessage {...props}
+                        makeNewMessage={this.makeNewMessage} />
+                }} /> */}
 
       </React.Fragment>
     );
