@@ -1,9 +1,6 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
-import NewMessage from "./messages/NewMessage"
-import NewsList from "./news/NewsList";
-import NewsManager from "../modules/NewsManager";
-import EventsList from "./events/EventsList";
+// import EventsList from "./events/EventsList"
 import EventManager from "../modules/EventManager";
 import MessageManager from "../modules/MessageManager"
 import NewMessage from "./messages/NewMessage"
@@ -27,24 +24,15 @@ export default class ApplicationViews extends Component {
     MessageManager.getAllMessages().then(allMessages => {
       this.setState({
         messages: allMessages
-
+        
       })
     })
-
 
     EventManager.getAll().then(events => {
       this.setState({
         events: events
       })
     })
-     NewsManager.getAllNews().then(allNews => {
-      this.setState({
-          articles: allNews
-      })
-
-    })
-  }
-     
   }
               deleteMessage = (id) => {
                 return MessageManager.deleteMessage(id)
@@ -63,7 +51,6 @@ export default class ApplicationViews extends Component {
                   )
               }
 
-
               editMessage = (editedMessage) => {
                 return MessageManager.putMessage(editedMessage)
                 .then(() => MessageManager.getAllMessages())
@@ -73,24 +60,14 @@ export default class ApplicationViews extends Component {
                   })
                 });
               };  
-
-                deleteNews = (id) => {
-                return NewsManager.removeAndListNews(id)
-                .then(articles => this.setState({
-          articles: articles
-        })
-      )
-
-   }
-
-
+  
 
   render() {
     return (
       <React.Fragment>
 
         <Route
-          exact path="/login" render={(props) => {
+          exact path="/login" render={props => {
             return null
             // Remove null and return the component which will handle authentication
           }}
@@ -98,8 +75,7 @@ export default class ApplicationViews extends Component {
 
         <Route
           exact path="/" render={props => {
-            return <NewsList deleteNews={this.deleteNews}
-            articles={this.state.articles} />
+            return null
             // Remove null and return the component which will show news articles
           }}
         />
