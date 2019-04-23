@@ -1,0 +1,25 @@
+.edit-button {
+    font-size: 12px;
+    background-color: #50626e;
+    color: white;
+    padding: 0px 0px;
+    margin: 5px;
+}
+
+.deleteButton{
+    font-size: 12px;
+    background-color: #50626e;
+    color: white;
+    padding: 0px 0px;
+    width: 50px;
+    height: 25px;
+}
+
+.editButton{
+    font-size: 12px;
+    background-color: purple;
+    color: white;
+    padding: 0px 0px;
+    width: 50px;
+    height: 25px;
+}

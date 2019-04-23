@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import "./Messages.css"
+
+
 
 export default class NewMessage extends Component {
     
@@ -44,14 +47,17 @@ export default class NewMessage extends Component {
                             {message.message}
                             <button
                                             onClick={() => this.props.deleteMessage(message.id)}
-                                            className="card-link">Delete</button>
+                                            className="deleteButton">Delete</button>
+                            <button 
+                                            onClick={() => this.props.history.push(`/messages/${message.id}/edit`)}
+                                            className="editButton">Edit</button>
                             </div>
                             
                             )
                     }
                 </div>
             
-            <form className="animalForm">
+            <form className="messageForm">
               <div className="form-group">
                 <label htmlFor="message">New Message</label>
                 <input
@@ -66,7 +72,7 @@ export default class NewMessage extends Component {
               <button
             type="submit"
             onClick={this.makeNewMessage}
-            className="btn btn-primary"
+            className="submitButton btn-primary"
           >
             Submit
           </button>
