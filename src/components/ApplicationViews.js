@@ -1,12 +1,11 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
-import NewMessage from "./messages/NewMessage"
-import NewsList from "./news/NewsList";
-import NewsManager from "../modules/NewsManager";
-import EventsList from "./events/EventsList";
+// import EventsList from "./events/EventsList"
 import EventManager from "../modules/EventManager";
-import MessageList from "./messages/MessageList";
 import MessageManager from "../modules/MessageManager"
+import NewMessage from "./messages/NewMessage"
+import MessageEditForm from "./messages/MessageEditForm"
+
 
 
 export default class ApplicationViews extends Component {
@@ -25,24 +24,15 @@ export default class ApplicationViews extends Component {
     MessageManager.getAllMessages().then(allMessages => {
       this.setState({
         messages: allMessages
-
+        
       })
     })
-
 
     EventManager.getAll().then(events => {
       this.setState({
         events: events
       })
     })
-     NewsManager.getAllNews().then(allNews => {
-      this.setState({
-          articles: allNews
-      })
-
-    })
-  }
-     
   }
               deleteMessage = (id) => {
                 return MessageManager.deleteMessage(id)
@@ -61,22 +51,23 @@ export default class ApplicationViews extends Component {
                   )
               }
 
-                deleteNews = (id) => {
-                return NewsManager.removeAndListNews(id)
-                .then(articles => this.setState({
-          articles: articles
-        })
-      )
-
-   }
-
+              editMessage = (editedMessage) => {
+                return MessageManager.putMessage(editedMessage)
+                .then(() => MessageManager.getAllMessages())
+                .then(messages => {
+                  this.setState({
+                    messages: messages
+                  })
+                });
+              };  
+  
 
   render() {
     return (
       <React.Fragment>
 
         <Route
-          exact path="/login" render={(props) => {
+          exact path="/login" render={props => {
             return null
             // Remove null and return the component which will handle authentication
           }}
@@ -84,8 +75,7 @@ export default class ApplicationViews extends Component {
 
         <Route
           exact path="/" render={props => {
-            return <NewsList deleteNews={this.deleteNews}
-            articles={this.state.articles} />
+            return null
             // Remove null and return the component which will show news articles
           }}
         />
@@ -98,8 +88,8 @@ export default class ApplicationViews extends Component {
         />
 
         <Route
-          path="/messages" render={props => {
-            return <NewMessage messages={this.state.messages} deleteMessage={this.deleteMessage}
+          exact path="/messages" render={props => {
+            return <NewMessage {...props} messages={this.state.messages} deleteMessage={this.deleteMessage}
             postMessage={this.postMessage} makeNewMessage={this.makeNewMessage}/>
             // Remove null and return the component which will show the messages
           }}
@@ -118,10 +108,11 @@ export default class ApplicationViews extends Component {
             // Remove null and return the component which will show the user's tasks
           }}
         />
-        {/* <Route path="/messages/new" render={(props) => {
-                    return <NewMessage {...props}
-                        makeNewMessage={this.makeNewMessage} />
-                }} /> */}
+        <Route
+          path="/messages/:messageId(\d+)/edit" render={props => {
+            return <MessageEditForm {...props} messages={this.state.messages} editMessage={this.editMessage}/>
+            }}
+          />
 
       </React.Fragment>
     );
