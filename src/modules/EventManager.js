@@ -14,6 +14,7 @@ export default {
             method: "DELETE"
         })
         .then(r => r.json())
+        .then(() => this.getAll())
     },
 
     post(newEvents) {

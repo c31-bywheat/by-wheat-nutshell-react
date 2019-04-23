@@ -29,9 +29,9 @@ export default class ApplicationViews extends Component {
 
       })
     })
-     EventManager.getAll().then(events => {
+     EventManager.getAll().then(event => {
        this.setState({
-         events: events
+         events: event
        })
      })
      NewsManager.getAllNews().then(allNews => {
@@ -49,6 +49,12 @@ export default class ApplicationViews extends Component {
         })
       )
 
+   }
+   deleteEvent = (id) =>{
+     return EventManager.deleteEvent(id)
+     .then(events =>
+       this.setState({events: events})
+     )
    }
 
 
@@ -87,8 +93,10 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/events" render={props => {
-            return null
+            return (
             // Remove null and return the component which will show the user's events
+            <EventsList deleteEvent={this.deleteEvent}events={this.state.events} />
+            )
           }}
         />
 

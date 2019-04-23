@@ -7,7 +7,7 @@ import './index.css'
 
 
 
-console.log(EventManager.deleteEvent(4))
+// console.log(EventManager.deleteEvent())
 
 
 
