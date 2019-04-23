@@ -1,0 +1,24 @@
+.buttonHolder {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+}
+
+
+.taskButton {
+        background-color: rgb(96, 228, 146);
+        border-radius: 5px;
+        margin-bottom: 5px;
+}
+
+.taskBox {
+        -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+        margin-bottom: 3px;
+        padding-left: 10px;
+        background-color: rgb(241, 241, 241);
+        border: none;
+        border-radius: 5px;
+}

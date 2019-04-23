@@ -6,8 +6,8 @@ import EventsList from "./events/EventsList";
 import EventManager from "../modules/EventManager";
 import MessageList from "./messages/MessageList";
 import MessageManager from "../modules/MessageManager"
-
-
+import TaskList from './tasks/TaskList'
+import TaskManager from '../modules/TaskManager'
 
 
 export default class ApplicationViews extends Component {
@@ -39,7 +39,12 @@ export default class ApplicationViews extends Component {
           articles: allNews
       })
 
-    })
+     })
+     TaskManager.getAll().then(tasks => {
+       this.setState({
+         tasks: tasks
+       })
+     })
   }
 
   deleteNews = (id) => {
@@ -94,7 +99,7 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/tasks" render={props => {
-            return null
+            return <TaskList tasks={this.state.tasks} />
             // Remove null and return the component which will show the user's tasks
           }}
         />
