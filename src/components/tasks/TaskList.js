@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import './tasks.css'
 
 export default class TaskList extends Component {
+
+    complete
     render() {
         return (
             <React.Fragment>
                 <div className="buttonHolder">
-                    <button className="taskButton">ADD TASK</button>
+                    <button className="button">ADD TASK</button>
                 </div>
                 <div className="taskHolder">
                     {
@@ -15,7 +17,8 @@ export default class TaskList extends Component {
                                 <input type="checkBox"></input>
                                 <h5>{task.item}</h5>
                                 <p>Complete by {task.byDate}</p>
-                                <button className="taskButton">Edit</button>
+                                <button className="button">Edit</button>
+                                <button className="button">Delete</button>
                             </div>
                         )
                     }
