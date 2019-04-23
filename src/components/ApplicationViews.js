@@ -9,6 +9,8 @@ import NewsForm from "../components/news/NewsForm"
 import MessageEditForm from "./messages/MessageEditForm"
 import Login from "./Authentication/Login"
 import { Route, Redirect } from "react-router-dom"
+// import TaskList from './tasks/TaskList'
+import TaskManager from '../modules/TaskManager'
 
 
 
@@ -23,9 +25,9 @@ export default class ApplicationViews extends Component {
     "friends": [],
     "tasks": [],
     "events": []
-   }
+  }
 
-   componentDidMount() {
+  componentDidMount() {
     MessageManager.getAllMessages().then(allMessages => {
       this.setState({
         messages: allMessages
@@ -38,15 +40,30 @@ export default class ApplicationViews extends Component {
         events: events
       })
     })
-     NewsManager.getAllNews().then(allNews => {
+    NewsManager.getAllNews().then(allNews => {
       this.setState({
-          articles: allNews
+        articles: allNews
       })
 
+    })
+    TaskManager.getAll().then(tasks => {
+      this.setState({
+        tasks: tasks
+      })
     })
   }
 
 
+
+  editMessage = (editedMessage) => {
+    return MessageManager.putMessage(editedMessage)
+      .then(() => MessageManager.getAllMessages())
+      .then(messages => {
+        this.setState({
+          messages: messages
+        })
+      })
+  }
               deleteMessage = (id) => {
                 return MessageManager.deleteMessage(id)
                 .then(messages => this.setState({
@@ -81,7 +98,7 @@ export default class ApplicationViews extends Component {
         })
       )
 
-   }
+  }
 
    addNews = news => {
     return NewsManager.post(news)
@@ -148,7 +165,7 @@ export default class ApplicationViews extends Component {
           exact path="/messages" render={props => {
             if(this.isAuthenticated()) {
             return <NewMessage {...props} messages={this.state.messages} deleteMessage={this.deleteMessage}
-            postMessage={this.postMessage} makeNewMessage={this.makeNewMessage}/>
+              postMessage={this.postMessage} makeNewMessage={this.makeNewMessage} />
             // Remove null and return the component which will show the messages
           }else {
             return <Redirect to="/login"/>
@@ -170,7 +187,7 @@ export default class ApplicationViews extends Component {
         <Route
           path="/tasks" render={props => {
             if(this.isAuthenticated()) {
-            return null
+            return <TaskList tasks={this.state.tasks} />
             // Remove null and return the component which will show the user's tasks
           } else {
             return <Redirect to="/login"/>
