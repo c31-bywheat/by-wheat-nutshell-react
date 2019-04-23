@@ -42,8 +42,8 @@ export default class ApplicationViews extends Component {
 
     })
   }
-     
-  }
+
+
               deleteMessage = (id) => {
                 return MessageManager.deleteMessage(id)
                 .then(messages => this.setState({
