@@ -21,51 +21,51 @@ export default class ApplicationViews extends Component {
     "friends": [],
     "tasks": [],
     "events": []
-   }
+  }
 
-   componentDidMount() {
+  componentDidMount() {
     MessageManager.getAll().then(allMessages => {
       this.setState({
         messages: allMessages
 
       })
     })
-     EventManager.getAllEvent().then(event => {
-       this.setState({
-         events: event
-       })
-     })
-     NewsManager.getAllNews().then(allNews => {
+    EventManager.getAllEvent().then(event => {
       this.setState({
-          articles: allNews
+        events: event
+      })
+    })
+    NewsManager.getAllNews().then(allNews => {
+      this.setState({
+        articles: allNews
       })
 
     })
   }
 
   deleteNews = (id) => {
-      return NewsManager.removeAndListNews(id)
+    return NewsManager.removeAndListNews(id)
       .then(articles => this.setState({
-          articles: articles
-        })
+        articles: articles
+      })
       )
 
-   }
-   deleteEvent = (id) =>{
-     return EventManager.deleteEvent(id)
-     .then(events =>
-       this.setState({events: events})
-     )
-   }
-   postEvent = event => {
-        return EventManager.post(event)
-            // .then(() => EventManager.getAll())
-            .then(events =>
-                this.setState({
-                    events: events
-                })
-            );
-              }
+  }
+  deleteEvent = (id) => {
+    return EventManager.deleteEvent(id)
+      .then(events =>
+        this.setState({ events: events })
+      )
+  }
+  postEvent = (newEvents) => {
+    return EventManager.postEvent(newEvents)
+      .then(() => EventManager.getAllEvent())
+      .then(events =>
+        this.setState({
+          events: events
+        })
+      );
+  }
 
 
 
@@ -83,7 +83,7 @@ export default class ApplicationViews extends Component {
         <Route
           exact path="/" render={props => {
             return <NewsList deleteNews={this.deleteNews}
-            articles={this.state.articles} />
+              articles={this.state.articles} />
             // Remove null and return the component which will show news articles
           }}
         />
@@ -97,24 +97,24 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/messages" render={props => {
-            return <MessageList messages={this.state.messages} deleteMessage={this.deleteMessage}/>
+            return <MessageList messages={this.state.messages} deleteMessage={this.deleteMessage} />
             // Remove null and return the component which will show the messages
           }}
         />
 
         <Route
-          path="/events" render={props => {
+          exact path="/events" render={props => {
             return (
-            // Remove null and return the component which will show the user's events
-            <EventsList deleteEvent={this.deleteEvent}events={this.state.events} />
+              // Remove null and return the component which will show the user's events
+              <EventsList {...props} deleteEvent={this.deleteEvent} events={this.state.events} />
             )
           }}
         />
-         <Route path="/events/new" render={(props) => {
-                    return <EventsForm {...props}
-                        addEvent={this.addEvent}
-                        events={this.state.events} />
-                }} />
+        <Route path="/events/new" render={(props) => {
+          return <EventsForm {...props}
+            postEvent={this.postEvent}
+            events={this.state.events} />
+        }} />
 
         <Route
           path="/tasks" render={props => {

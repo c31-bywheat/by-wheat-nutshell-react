@@ -4,7 +4,7 @@ import "./events.css"
 export default class EventsForm extends Component {
   // Set initial state
   state = {
-    title: "",
+    name: "",
     location: "",
     date: ""
   };
@@ -13,27 +13,22 @@ export default class EventsForm extends Component {
   handleFieldChange = (evt) => {
     const stateToChange = {};
     stateToChange[evt.target.id] = evt.target.value;
-    console.log(stateToChange)
     this.setState(stateToChange);
   };
   constructNewEvent = evt => {
     evt.preventDefault();
-    if (this.state.eventsId === "") {
-      window.alert("Please select a caretaker");
-    } else {
-      const event = {
-        name: this.state.name,
-        location: this.state.location,
-        date: this.state.date,
+      const data = {
+        name: this.state.EventName,
+        location: this.state.eventLocation,
+        date: this.state.eventDate
         // Make sure the eventId is saved to the database
-        eventId: parseInt(this.state.eventsId)
       };
 
       // Create the events and redirect user to events list
       this.props
-        .addEvent(event)
-        .then(() => this.props.history.push("/events/new"));
-    }
+        .postEvent(data)
+        .then(() => this.props.history.push("/events"));
+
   };
 
   render() {
@@ -47,7 +42,7 @@ export default class EventsForm extends Component {
               required
               className="form-control"
               onChange={this.handleFieldChange}
-              id="name"
+              id="EventName"
               placeholder="Event name"
             />
           </div>
@@ -58,7 +53,7 @@ export default class EventsForm extends Component {
               required
               className="form-control"
               onChange={this.handleFieldChange}
-              id="location"
+              id="eventLocation"
               placeholder="Location"
             />
           </div>
@@ -69,7 +64,7 @@ export default class EventsForm extends Component {
               required
               className="form-control"
               onChange={this.handleFieldChange}
-              id="date"
+              id="eventDate"
               placeholder="Date"
             />
           </div>
