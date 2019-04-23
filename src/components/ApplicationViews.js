@@ -2,9 +2,9 @@ import { Route } from "react-router-dom";
 import React, { Component } from "react";
 // import EventsList from "./events/EventsList"
 import EventManager from "../modules/EventManager";
-import MessageList from "./messages/MessageList";
 import MessageManager from "../modules/MessageManager"
 import NewMessage from "./messages/NewMessage"
+import MessageEditForm from "./messages/MessageEditForm"
 
 
 
@@ -50,6 +50,16 @@ export default class ApplicationViews extends Component {
                   })
                   )
               }
+
+              editMessage = (editedMessage) => {
+                return MessageManager.putMessage(editedMessage)
+                .then(() => MessageManager.getAllMessages())
+                .then(messages => {
+                  this.setState({
+                    messages: messages
+                  })
+                });
+              };  
   
 
   render() {
@@ -78,8 +88,8 @@ export default class ApplicationViews extends Component {
         />
 
         <Route
-          path="/messages" render={props => {
-            return <NewMessage messages={this.state.messages} deleteMessage={this.deleteMessage}
+          exact path="/messages" render={props => {
+            return <NewMessage {...props} messages={this.state.messages} deleteMessage={this.deleteMessage}
             postMessage={this.postMessage} makeNewMessage={this.makeNewMessage}/>
             // Remove null and return the component which will show the messages
           }}
@@ -98,10 +108,11 @@ export default class ApplicationViews extends Component {
             // Remove null and return the component which will show the user's tasks
           }}
         />
-        {/* <Route path="/messages/new" render={(props) => {
-                    return <NewMessage {...props}
-                        makeNewMessage={this.makeNewMessage} />
-                }} /> */}
+        <Route
+          path="/messages/:messageId(\d+)/edit" render={props => {
+            return <MessageEditForm {...props} messages={this.state.messages} editMessage={this.editMessage}/>
+            }}
+          />
 
       </React.Fragment>
     );
