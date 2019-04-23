@@ -30,7 +30,7 @@ export default class ApplicationViews extends Component {
 
       })
     })
-     EventManager.getAll().then(event => {
+     EventManager.getAllEvent().then(event => {
        this.setState({
          events: event
        })
@@ -57,7 +57,7 @@ export default class ApplicationViews extends Component {
        this.setState({events: events})
      )
    }
-   addEvent = event => {
+   postEvent = event => {
         return EventManager.post(event)
             // .then(() => EventManager.getAll())
             .then(events =>

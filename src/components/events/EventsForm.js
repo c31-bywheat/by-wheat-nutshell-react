@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import "./evnts.css"
+import "./events.css"
 
 export default class EventsForm extends Component {
   // Set initial state

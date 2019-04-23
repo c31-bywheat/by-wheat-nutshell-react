@@ -1,11 +1,11 @@
 const apiURL = "http://localhost:5002"
 
 export default {
-    get(id) {
+    getEvent(id) {
         return fetch(`${apiURL}/events/${id}`).then(r => r.json())
     },
 
-    getAll() {
+    getAllEvent() {
         return fetch(`${apiURL}/events`).then(r => r.json())
     },
 
@@ -14,10 +14,10 @@ export default {
             method: "DELETE"
         })
         .then(r => r.json())
-        .then(() => this.getAll())
+        .then(() => this.getAllEvent())
     },
 
-    post(newEvents) {
+    postEvent(newEvents) {
         return fetch(`${apiURL}/events`, {
             method: "POST",
             headers: {
@@ -27,7 +27,7 @@ export default {
         })
         .then(data => data.json())
     },
-    put(editedEvents) {
+    putEvent(editedEvents) {
         return fetch(`${apiURL}/events/${editedEvents.id}`, {
           method: "PUT",
           headers: {
