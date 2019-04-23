@@ -6,7 +6,16 @@ export default class NewsList extends Component {
         return (
          <article className="header">
             <h1>News</h1>
-            <section className="content News">
+            <div className="NewsButton">
+                    <button type="button"
+                            className="btn btn-success"
+                            onClick={() => {
+                                this.props.history.push("/articles/new")}
+                            }>
+                        Add News
+                    </button>
+                </div>
+                <section className="content News">
             {
                 this.props.articles.map(article =>
                     <div key={article.id} className="card">
@@ -23,6 +32,6 @@ export default class NewsList extends Component {
             }
             </section>
             </article>
-        )
+            )
+        }
     }
-}
