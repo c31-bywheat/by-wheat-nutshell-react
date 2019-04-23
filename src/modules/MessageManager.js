@@ -26,5 +26,15 @@ export default {
             },
             body: JSON.stringify(newMessage)
         }).then(message => message.json())
-    }
+    },
+    putMessage(editedMessage) {
+        return fetch(`${apiURL}/messages/${editedMessage.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(editedMessage)
+        }).then(data => data.json());
+      }
 }
+
