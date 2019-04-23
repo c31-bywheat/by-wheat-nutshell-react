@@ -3,7 +3,7 @@
     {
         "id": 1,
         "name": "NFL Draft",
-        "date": "22/4/2019",
+        "date": "2/14/2019",
         "location": "100 Main street"
       },
       {
