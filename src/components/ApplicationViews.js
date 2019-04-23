@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import NewMessage from "./messages/NewMessage"
 import NewsList from "./news/NewsList";
 import NewsManager from "../modules/NewsManager";
-// import EventsList from "./events/EventsList";
+import EventsList from "./events/EventsList";
+import EventsForm from "./events/EventsForm"
 import EventManager from "../modules/EventManager";
 import MessageManager from "../modules/MessageManager"
 import NewsForm from "../components/news/NewsForm"
@@ -34,10 +35,9 @@ export default class ApplicationViews extends Component {
         
       })
     })
-
-    EventManager.getAll().then(events => {
+    EventManager.getAllEvent().then(event => {
       this.setState({
-        events: events
+        events: event
       })
     })
     NewsManager.getAllNews().then(allNews => {
@@ -99,6 +99,22 @@ export default class ApplicationViews extends Component {
       )
 
   }
+  deleteEvent = (id) => {
+    return EventManager.deleteEvent(id)
+      .then(events =>
+        this.setState({ events: events })
+      )
+  }
+  postEvent = (newEvents) => {
+    return EventManager.postEvent(newEvents)
+      .then(() => EventManager.getAllEvent())
+      .then(events =>
+        this.setState({
+          events: events
+        })
+      );
+  }
+
 
    addNews = news => {
     return NewsManager.post(news)
@@ -174,15 +190,23 @@ export default class ApplicationViews extends Component {
         />
 
         <Route
-          path="/events" render={props => {
+         exact path="/events" render={props => {
             if(this.isAuthenticated()) {
-            return null
-            // Remove null and return the component which will show the user's events
+              return (
+                // Remove null and return the component which will show the user's events
+                <EventsList {...props} deleteEvent={this.deleteEvent} events={this.state.events} />
+              )
           }else {
             return <Redirect to="/login"/>
           }
         }}
+          
         />
+        <Route path="/events/new" render={(props) => {
+          return <EventsForm {...props}
+            postEvent={this.postEvent}
+            events={this.state.events} />
+        }} />
 
         <Route
           path="/tasks" render={props => {

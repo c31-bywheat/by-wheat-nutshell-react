@@ -1,0 +1,14 @@
+.eventButton{
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.events {
+    background-color: antiquewhite;
+    text-align: center;
+    width: 30%;
+    white-space: nowrap;
+    padding: 2px;
+
+}
