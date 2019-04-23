@@ -4,3 +4,11 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.events {
+    background-color: antiquewhite;
+    text-align: center;
+    width: 20%;
+    white-space: nowrap;
+    padding: 2px;
+
+}
