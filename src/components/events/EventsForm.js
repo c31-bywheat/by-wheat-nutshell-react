@@ -25,13 +25,13 @@ export default class EventsForm extends Component {
         name: this.state.name,
         location: this.state.location,
         date: this.state.date,
-        // Make sure the employeeId is saved to the database as a number since it is a foreign key.
+        // Make sure the eventId is saved to the database
         employeeId: parseInt(this.state.eventsId)
       };
 
-      // Create the animal and redirect user to animal list
+      // Create the events and redirect user to events list
       this.props
-        .addAnimal(event)
+        .addEvent(event)
         .then(() => this.props.history.push("/events/new"));
     }
   };
@@ -63,7 +63,7 @@ export default class EventsForm extends Component {
             />
           </div>
           <div className="form-group">
-          <label htmlFor="date">Event Date</label>
+            <label htmlFor="date">Event Date</label>
             <input
               type="text"
               required

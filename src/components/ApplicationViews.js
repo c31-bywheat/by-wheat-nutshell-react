@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import NewsList from "./news/NewsList";
 import NewsManager from "../modules/NewsManager";
 import EventsList from "./events/EventsList";
+import EventsForm from "./events/EventsForm"
 import EventManager from "../modules/EventManager";
 import MessageList from "./messages/MessageList";
 import MessageManager from "../modules/MessageManager"
@@ -56,6 +57,16 @@ export default class ApplicationViews extends Component {
        this.setState({events: events})
      )
    }
+   addEvent = event => {
+        return EventManager.post(event)
+            // .then(() => EventManager.getAll())
+            .then(events =>
+                this.setState({
+                    events: events
+                })
+            );
+              }
+
 
 
   render() {
@@ -99,6 +110,11 @@ export default class ApplicationViews extends Component {
             )
           }}
         />
+         <Route path="/events/new" render={(props) => {
+                    return <EventsForm {...props}
+                        addEvent={this.addEvent}
+                        events={this.state.events} />
+                }} />
 
         <Route
           path="/tasks" render={props => {
