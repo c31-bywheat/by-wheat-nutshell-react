@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import EventManager from "../modules/EventManager";
 import MessageList from "./messages/MessageList";
 import MessageManager from "../modules/MessageManager"
-
+import NewMessage from "./messages/NewMessage"
 
 
 
@@ -40,6 +40,16 @@ export default class ApplicationViews extends Component {
                   messages: messages
                 }))
               }
+
+              postMessage = (message) => {
+                return MessageManager.postMessage(message)
+                .then(() => MessageManager.getAllMessages())
+                .then(messages =>
+                  this.setState({
+                    messages:messages
+                  })
+                  )
+              }
   
 
   render() {
@@ -69,7 +79,8 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/messages" render={props => {
-            return <MessageList messages={this.state.messages} deleteMessage={this.deleteMessage}/>
+            return <NewMessage messages={this.state.messages} deleteMessage={this.deleteMessage}
+            postMessage={this.postMessage} makeNewMessage={this.makeNewMessage}/>
             // Remove null and return the component which will show the messages
           }}
         />
@@ -87,6 +98,10 @@ export default class ApplicationViews extends Component {
             // Remove null and return the component which will show the user's tasks
           }}
         />
+        {/* <Route path="/messages/new" render={(props) => {
+                    return <NewMessage {...props}
+                        makeNewMessage={this.makeNewMessage} />
+                }} /> */}
 
       </React.Fragment>
     );
