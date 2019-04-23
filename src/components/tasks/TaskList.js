@@ -8,7 +8,7 @@ export default class TaskList extends Component {
         return (
             <React.Fragment>
                 <div className="buttonHolder">
-                    <button className="button">ADD TASK</button>
+                    <button className="submitButton btn-primary">ADD TASK</button>
                 </div>
                 <div className="taskHolder">
                     {
@@ -17,8 +17,8 @@ export default class TaskList extends Component {
                                 <input type="checkBox"></input>
                                 <h5>{task.item}</h5>
                                 <p>Complete by {task.byDate}</p>
-                                <button className="button">Edit</button>
-                                <button className="button">Delete</button>
+                                <button className="editButton">Edit</button>
+                                <button className="deleteButton">Delete</button>
                             </div>
                         )
                     }
