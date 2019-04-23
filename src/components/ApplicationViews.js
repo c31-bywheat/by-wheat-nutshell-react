@@ -1,13 +1,16 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
+import NewMessage from "./messages/NewMessage"
 import NewsList from "./news/NewsList";
 import NewsManager from "../modules/NewsManager";
 import EventsList from "./events/EventsList";
 import EventsForm from "./events/EventsForm"
 import EventManager from "../modules/EventManager";
-import MessageList from "./messages/MessageList";
 import MessageManager from "../modules/MessageManager"
-
+import NewsForm from "../components/news/NewsForm"
+import MessageEditForm from "./messages/MessageEditForm"
+import TaskList from './tasks/TaskList'
+import TaskManager from '../modules/TaskManager'
 
 
 
@@ -24,7 +27,7 @@ export default class ApplicationViews extends Component {
   }
 
   componentDidMount() {
-    MessageManager.getAll().then(allMessages => {
+    MessageManager.getAllMessages().then(allMessages => {
       this.setState({
         messages: allMessages
 
@@ -41,7 +44,41 @@ export default class ApplicationViews extends Component {
       })
 
     })
+    TaskManager.getAll().then(tasks => {
+      this.setState({
+        tasks: tasks
+      })
+    })
   }
+
+
+
+  editMessage = (editedMessage) => {
+    return MessageManager.putMessage(editedMessage)
+      .then(() => MessageManager.getAllMessages())
+      .then(messages => {
+        this.setState({
+          messages: messages
+        })
+      })
+  }
+              deleteMessage = (id) => {
+                return MessageManager.deleteMessage(id)
+                .then(messages => this.setState({
+                  messages: messages
+                }))
+              }
+
+              postMessage = (message) => {
+                return MessageManager.postMessage(message)
+                .then(() => MessageManager.getAllMessages())
+                .then(messages =>
+                  this.setState({
+                    messages:messages
+                  })
+                  )
+              }
+
 
   deleteNews = (id) => {
     return NewsManager.removeAndListNews(id)
@@ -68,6 +105,17 @@ export default class ApplicationViews extends Component {
   }
 
 
+   addNews = news => {
+    return NewsManager.post(news)
+    .then(() => NewsManager.getAllNews())
+    .then(articles =>
+      this.setState({
+        articles: articles
+      })
+    )
+   }
+
+
 
   render() {
     return (
@@ -82,12 +130,21 @@ export default class ApplicationViews extends Component {
 
         <Route
           exact path="/" render={props => {
-            return <NewsList deleteNews={this.deleteNews}
-              articles={this.state.articles} />
+            return <NewsList {...props}
+            deleteNews={this.deleteNews}
+            addNews={this.addNews}
+            articles={this.state.articles} />
             // Remove null and return the component which will show news articles
           }}
         />
 
+        <Route
+          exact path="/articles/new" render={props => {
+            return <NewsForm {...props} articles={this.state.articles}
+            addNews={this.addNews} />
+          }
+        }
+        />
         <Route
           path="/friends" render={props => {
             return null
@@ -96,8 +153,9 @@ export default class ApplicationViews extends Component {
         />
 
         <Route
-          path="/messages" render={props => {
-            return <MessageList messages={this.state.messages} deleteMessage={this.deleteMessage} />
+          exact path="/messages" render={props => {
+            return <NewMessage {...props} messages={this.state.messages} deleteMessage={this.deleteMessage}
+              postMessage={this.postMessage} makeNewMessage={this.makeNewMessage} />
             // Remove null and return the component which will show the messages
           }}
         />
@@ -118,8 +176,13 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/tasks" render={props => {
-            return null
+            return <TaskList tasks={this.state.tasks} />
             // Remove null and return the component which will show the user's tasks
+          }}
+        />
+        <Route
+          path="/messages/:messageId(\d+)/edit" render={props => {
+            return <MessageEditForm {...props} messages={this.state.messages} editMessage={this.editMessage} />
           }}
         />
 

@@ -13,5 +13,15 @@ export default {
         })
             .then(e => e.json())
             .then(() => this.getAllNews())
-    }
+    },
+
+post(newNews) {
+  return fetch(`${remoteURL}/articles`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(newNews)
+  }).then(data => data.json())
+}
 }
