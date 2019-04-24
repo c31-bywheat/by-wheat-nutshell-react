@@ -6,7 +6,7 @@ export default class EventEditForm extends Component {
   //Set initial State
   state = {
     name: "",
-    loacation: "",
+    location: "",
     date: ""
   };
 
@@ -24,12 +24,11 @@ export default class EventEditForm extends Component {
     } else {
       const editEvent = {
         id: this.props.match.params.eventId,
-        name: this.state.eventName,
-        loacation: this.state.eventLocation,
-        date: this.state.eventDate
+        name: this.state.name,
+        location: this.state.location,
+        date: this.state.date
       };
-      this.props
-        .editEvent(editEvent)
+      this.props.editEvent(editEvent)
         .then(() => this.props.history.push("/events"));
     }
   };
@@ -48,35 +47,35 @@ export default class EventEditForm extends Component {
       <React.Fragment>
         <form className="eventForm">
           <div className="form-group">
-            <label htmlFor="newName">Edit Name</label>
+            <label htmlFor="name">Edit Name</label>
             <input
               type="text"
               required
               className="form-control"
               onChange={this.handleFieldChange}
-              id="eventName"
+              id="name"
               value ={this.state.name}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="newLocationt">Edit Location</label>
+            <label htmlFor="location">Edit Location</label>
             <input
               type="text"
               required
               className="form-control"
               onChange={this.handleFieldChange}
-              id="eventLocation"
+              id="location"
               value ={this.state.location}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="newDate">Edit Date</label>
+            <label htmlFor="date">Edit Date</label>
             <input
               type="date"
               required
               className="form-control"
               onChange={this.handleFieldChange}
-              id="eventDate"
+              id="date"
               value={this.state.date}
             />
           </div>

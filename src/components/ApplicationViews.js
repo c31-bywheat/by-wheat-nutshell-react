@@ -184,8 +184,8 @@ export default class ApplicationViews extends Component {
             events={this.state.events} />
         }} />
         <Route
-          path="/events/:eventId(\d+)/edit" render={(props) => {
-            return <EventEditForm {...props} editEvent={this.editEvent}events={this.state.events} />
+          path="/events/:eventId(\d+)/edit" render={props => {
+            return <EventEditForm {...props} editEvent={this.editEvent} events={this.state.events} />
           }}
           />
 
