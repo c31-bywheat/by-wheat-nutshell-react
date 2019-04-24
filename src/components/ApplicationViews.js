@@ -10,7 +10,7 @@ import NewsForm from "../components/news/NewsForm"
 import MessageEditForm from "./messages/MessageEditForm"
 import Login from "./Authentication/Login"
 import { Route, Redirect } from "react-router-dom"
-// import TaskList from './tasks/TaskList'
+import TaskList from './tasks/TaskList'
 import TaskManager from '../modules/TaskManager'
 
 
