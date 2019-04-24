@@ -20,7 +20,8 @@ export default class NewsForm extends Component {
         const news = {
         title: this.state.title,
         synopsis: this.state.synopsis,
-        url: this.state.url
+        url: this.state.url,
+        timestamp: new Date()
 
     }
     this.props
