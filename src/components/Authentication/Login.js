@@ -1,12 +1,12 @@
 import React, { Component } from "react"
-
+import UserManager from "../../modules/UserManager"
 
 export default class Login extends Component {
 
 
     state = {
         email: "",
-        password: ""
+        password: "",
     }
 
   
@@ -19,20 +19,25 @@ export default class Login extends Component {
    
     handleLogin = () => {
         // e.preventDefault()
-
-        
-        sessionStorage.setItem(
-            "credentials",
-            JSON.stringify({
-                email: this.state.email,
-                password: this.state.password
-            })
-        )
-            this.props.history.push("/")
+        UserManager.getAllUsers()
+        .then(users => {
+            let loginUser = users.find(element =>
+                element.email.toLowerCase() === this.state.email.toLowerCase() 
+                && element.password.toLowerCase() === this.state.password.toLowerCase())
+                if(loginUser) {
+                    sessionStorage.setItem("userId", loginUser.id)
+                    this.props.history.push("/")
+                } else {
+                    window.alert("Login information not found. Please try again or register an account.")
+                }
+        })
+           
+            
     }
 
     render() {
         return (
+            <div>
             <form onSubmit={this.handleLogin}>
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <label htmlFor="inputEmail">
@@ -55,6 +60,14 @@ export default class Login extends Component {
                     Sign in
                 </button>
             </form>
+            
+            <button type="button"
+            className="btn btn-primary"
+            onClick= {() => {
+                this.props.history.push("/register")
+            }}> Register </button>
+            </div>
+        
         )
-    }
+        }
 }

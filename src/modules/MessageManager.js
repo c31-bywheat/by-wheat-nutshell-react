@@ -1,4 +1,4 @@
-// import { getEnabledCategories } from "trace_events";
+
 
 const apiURL = "http://localhost:5002"
 
