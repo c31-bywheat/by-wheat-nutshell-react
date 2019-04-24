@@ -25,6 +25,9 @@ export default class NewsList extends Component {
                                 <button
                                     onClick={() => this.props.deleteNews(article.id)}
                                     className="card-link">Delete</button>
+                                <button
+                                    onClick={() => this.props.history.push(`/articles/${article.id}/edit`)}
+                                    className="editButton">Edit</button>
                             </h5>
                         </div>
                     </div>

@@ -3,11 +3,12 @@ import React, { Component } from "react";
 import NewMessage from "./messages/NewMessage"
 import NewsList from "./news/NewsList";
 import NewsManager from "../modules/NewsManager";
-import EventsList from "./events/EventsList";
+// import EventsList from "./events/EventsList";
 import EventManager from "../modules/EventManager";
 import MessageManager from "../modules/MessageManager"
 import NewsForm from "../components/news/NewsForm"
 import MessageEditForm from "./messages/MessageEditForm"
+import EditNewsForm from "./news/EditNewsForm"
 
 
 
@@ -72,7 +73,7 @@ export default class ApplicationViews extends Component {
                     messages: messages
                   })
                 });
-              };  
+              };
 
                 deleteNews = (id) => {
                 return NewsManager.removeAndListNews(id)
@@ -93,6 +94,16 @@ export default class ApplicationViews extends Component {
     )
    }
 
+   editNews = (editedNews) => {
+    return NewsManager.putNews(editedNews)
+    .then(() => NewsManager.getAllNews())
+    .then(articles => {
+      this.setState({
+        articles: articles
+      })
+    });
+  };
+
 
 
   render() {
@@ -111,7 +122,9 @@ export default class ApplicationViews extends Component {
             return <NewsList {...props}
             deleteNews={this.deleteNews}
             addNews={this.addNews}
-            articles={this.state.articles} />
+            articles={this.state.articles}
+            // editNews={this.editNews}
+             />
             // Remove null and return the component which will show news articles
           }}
         />
@@ -123,6 +136,12 @@ export default class ApplicationViews extends Component {
           }
         }
         />
+
+        <Route
+          path="/articles/:articleId(\d+)/edit" render={props => {
+            return <EditNewsForm {...props} articles={this.state.articles} editNews={this.editNews}/>
+         }}
+        />
         <Route
           path="/friends" render={props => {
             return null
@@ -131,7 +150,7 @@ export default class ApplicationViews extends Component {
         />
 
         <Route
-          exact path="/messages" render={props => {
+          path="/messages" render={props => {
             return <NewMessage {...props} messages={this.state.messages} deleteMessage={this.deleteMessage}
             postMessage={this.postMessage} makeNewMessage={this.makeNewMessage}/>
             // Remove null and return the component which will show the messages
