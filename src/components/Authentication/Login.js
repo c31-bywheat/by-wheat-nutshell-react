@@ -33,6 +33,7 @@ export default class Login extends Component {
 
     render() {
         return (
+            <div>
             <form onSubmit={this.handleLogin}>
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <label htmlFor="inputEmail">
@@ -55,6 +56,14 @@ export default class Login extends Component {
                     Sign in
                 </button>
             </form>
+            
+            <button type="button"
+            className="btn btn-primary"
+            onClick= {() => {
+                this.props.history.push("/register")
+            }}> Register </button>
+            </div>
+        
         )
-    }
+        }
 }

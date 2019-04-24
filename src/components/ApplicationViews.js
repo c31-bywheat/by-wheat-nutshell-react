@@ -13,6 +13,8 @@ import Login from "./Authentication/Login"
 import { Route, Redirect } from "react-router-dom"
 import TaskList from './tasks/TaskList'
 import TaskManager from '../modules/TaskManager'
+import RegisterForm from "./Authentication/Register"
+import UserManager from "../modules/UserManager"
 
 
 
@@ -64,6 +66,10 @@ export default class ApplicationViews extends Component {
         })
       })
   }
+              postUser = (newUser) => {
+                return UserManager.postUser(newUser)
+                
+              }
               deleteMessage = (id) => {
                 return MessageManager.deleteMessage(id)
                 .then(messages => this.setState({
@@ -145,11 +151,15 @@ export default class ApplicationViews extends Component {
 
         <Route
           exact path="/login" render={props => {
-            return <Login users={this.state.users} {...props}/>
+            return <Login users={this.state.users} {...props} postUser={this.postUser}/>
 
           }}
         />
-
+        <Route 
+           path="/register" render={props => {
+             return <RegisterForm users={this.state.users} {...props} postUser={this.postUser}/>
+           }}
+        />
         <Route
           exact path="/" render={props => {
             if(this.isAuthenticated()) {
