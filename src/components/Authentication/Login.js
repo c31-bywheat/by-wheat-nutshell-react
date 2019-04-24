@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-
+import UserManager from "../../modules/UserManager"
 
 export default class Login extends Component {
 
@@ -19,8 +19,7 @@ export default class Login extends Component {
    
     handleLogin = () => {
         // e.preventDefault()
-        fetch("http://localhost:5002/users")
-            .then(response => response.json())
+        UserManager.getAllUsers()
         .then(users => {
             let loginUser = users.find(element =>
                 element.email.toLowerCase() === this.state.email.toLowerCase() 
