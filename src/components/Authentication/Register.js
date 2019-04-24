@@ -21,6 +21,7 @@ export default class RegisterForm extends Component {
         }
         console.log(newUser)
         this.props.postUser(newUser)
+        .then(this.props.history.push("/login"))
     }
 
     render() {

@@ -26,11 +26,9 @@ export default class NewMessage extends Component {
         } else {
           const message = {
             message: this.state.message,
-            // Make sure the employeeId is saved to the database as a number since it is a foreign key.
-            // userId: parseInt(this.state.userId)
           };
 
-          // Create the animal and redirect user to animal list
+     
           this.props
             .postMessage(message)
 
