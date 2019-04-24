@@ -12,21 +12,21 @@ export default class EventEditForm extends Component {
 
   handleFieldChange = evt => {
     const stateToChange = {};
-    stateToChange[evt.target.id] = evt.target.value;
-    this.state(stateToChange);
+    stateToChange[evt.target.id] = evt.target.value
+    this.setState(stateToChange)
   };
 
   updateExistingEvent = evt => {
-    evt.preventDefualt();
+    evt.preventDefault()
 
     if (this.state.event === "") {
-      window.elert("Please enter edit Event");
+      window.alert("Please enter edit Event");
     } else {
       const editEvent = {
-        id: Number(this.props.match.params.event.Id),
+        id: this.props.match.params.eventId,
         name: this.state.eventName,
         loacation: this.state.eventLocation,
-        date: this.state.eventLocation
+        date: this.state.eventDate
       };
       this.props
         .editEvent(editEvent)
@@ -35,13 +35,13 @@ export default class EventEditForm extends Component {
   };
   componentDidMount() {
     EventManager.getEvent(this.props.match.params.eventId)
-    .then(event => {
-      this.setState({
-        name: event.name,
-        location: event.location,
-        date: event.date
+      .then(event => {
+        this.setState({
+          name: event.name,
+          location: event.location,
+          date: event.date
+        });
       });
-    });
   }
   render() {
     return (
@@ -53,9 +53,9 @@ export default class EventEditForm extends Component {
               type="text"
               required
               className="form-control"
-              onClick={this.handleFieldChange}
+              onChange={this.handleFieldChange}
               id="eventName"
-              placeholder="Event name"
+              value ={this.state.name}
             />
           </div>
           <div className="form-group">
@@ -64,10 +64,9 @@ export default class EventEditForm extends Component {
               type="text"
               required
               className="form-control"
-              onClick={this.handleFieldChange}
+              onChange={this.handleFieldChange}
               id="eventLocation"
-              placeholder="Event Location"
-              thi
+              value ={this.state.location}
             />
           </div>
           <div className="form-group">
@@ -76,9 +75,9 @@ export default class EventEditForm extends Component {
               type="date"
               required
               className="form-control"
-              onClick={this.handleFieldChange}
+              onChange={this.handleFieldChange}
               id="eventDate"
-              placeholder="Event Date"
+              value={this.state.date}
             />
           </div>
 

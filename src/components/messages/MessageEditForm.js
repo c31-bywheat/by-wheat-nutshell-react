@@ -25,7 +25,7 @@ export default class MessageEditForm extends Component {
             };
             console.log(editedMessage)
         this.props.editMessage(editedMessage)
-        .then(() => this.props.history.push("/messages"))  
+        .then(() => this.props.history.push("/messages")) 
         }
     }
 
