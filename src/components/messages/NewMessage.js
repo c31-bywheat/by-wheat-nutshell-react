@@ -4,7 +4,7 @@ import "./Messages.css"
 
 
 export default class NewMessage extends Component {
-    
+
     // Set initial state
     state = {
         meessage: ""
@@ -29,11 +29,11 @@ export default class NewMessage extends Component {
             // Make sure the employeeId is saved to the database as a number since it is a foreign key.
             // userId: parseInt(this.state.userId)
           };
-    
+
           // Create the animal and redirect user to animal list
           this.props
             .postMessage(message)
-            
+
         }
       }
 
@@ -42,21 +42,21 @@ export default class NewMessage extends Component {
             <React.Fragment>
                 <div className="messages">
                     {
-                        this.props.messages.map(message => 
+                        this.props.messages.map(message =>
                             <div key={message.id} className="card">
                             {message.message}
                             <button
                                             onClick={() => this.props.deleteMessage(message.id)}
                                             className="deleteButton">Delete</button>
-                            <button 
+                            <button
                                             onClick={() => this.props.history.push(`/messages/${message.id}/edit`)}
                                             className="editButton">Edit</button>
                             </div>
-                            
+
                             )
                     }
                 </div>
-            
+
             <form className="messageForm">
               <div className="form-group">
                 <label htmlFor="message">New Message</label>

@@ -8,9 +8,10 @@ import EventManager from "../modules/EventManager";
 import MessageManager from "../modules/MessageManager"
 import NewsForm from "../components/news/NewsForm"
 import MessageEditForm from "./messages/MessageEditForm"
+import EditNewsForm from "./news/EditNewsForm"
 import Login from "./Authentication/Login"
 import { Route, Redirect } from "react-router-dom"
-// import TaskList from './tasks/TaskList'
+import TaskList from './tasks/TaskList'
 import TaskManager from '../modules/TaskManager'
 
 
@@ -32,7 +33,6 @@ export default class ApplicationViews extends Component {
     MessageManager.getAllMessages().then(allMessages => {
       this.setState({
         messages: allMessages
-        
       })
     })
     EventManager.getAllEvent().then(event => {
@@ -89,7 +89,7 @@ export default class ApplicationViews extends Component {
                     messages: messages
                   })
                 });
-              };  
+              };
 
                 deleteNews = (id) => {
                 return NewsManager.removeAndListNews(id)
@@ -126,32 +126,42 @@ export default class ApplicationViews extends Component {
     )
    }
 
+   editNews = (editedNews) => {
+    return NewsManager.putNews(editedNews)
+    .then(() => NewsManager.getAllNews())
+    .then(articles => {
+      this.setState({
+        articles: articles
+      })
+    });
+  };
+
 
 
   render() {
     return (
       <React.Fragment>
-        
+
 
         <Route
           exact path="/login" render={props => {
             return <Login users={this.state.users} {...props}/>
-           
+
           }}
         />
-        
+
         <Route
           exact path="/" render={props => {
             if(this.isAuthenticated()) {
             return <NewsList {...props}
             deleteNews={this.deleteNews}
             addNews={this.addNews}
-            articles={this.state.articles} />
-           
+            articles={this.state.articles}/>
+
           } else {
             return <Redirect to="/login"/>
           }
-        
+
         }}
         />
 
@@ -164,6 +174,12 @@ export default class ApplicationViews extends Component {
             return <Redirect to="/login"/>
           }
         }}
+        />
+
+        <Route
+          path="/articles/:articleId(\d+)/edit" render={props => {
+            return <EditNewsForm {...props} articles={this.state.articles} editNews={this.editNews}/>
+         }}
         />
         <Route
           path="/friends" render={props => {
@@ -200,7 +216,6 @@ export default class ApplicationViews extends Component {
             return <Redirect to="/login"/>
           }
         }}
-          
         />
         <Route path="/events/new" render={(props) => {
           return <EventsForm {...props}
