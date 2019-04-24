@@ -1,4 +1,3 @@
-import { Route } from "react-router-dom";
 import React, { Component } from "react";
 import NewMessage from "./messages/NewMessage"
 import NewsList from "./news/NewsList";
@@ -10,14 +9,20 @@ import EventManager from "../modules/EventManager";
 import MessageManager from "../modules/MessageManager"
 import NewsForm from "../components/news/NewsForm"
 import MessageEditForm from "./messages/MessageEditForm"
+import EditNewsForm from "./news/EditNewsForm"
+import Login from "./Authentication/Login"
+import { Route, Redirect } from "react-router-dom"
 import TaskList from './tasks/TaskList'
 import TaskManager from '../modules/TaskManager'
+import RegisterForm from "./Authentication/Register"
+import UserManager from "../modules/UserManager"
 
 
 
 
 export default class ApplicationViews extends Component {
 
+  isAuthenticated = () => sessionStorage.getItem("userId") !== null
 
   state = {
     "users": [],
@@ -32,7 +37,6 @@ export default class ApplicationViews extends Component {
     MessageManager.getAllMessages().then(allMessages => {
       this.setState({
         messages: allMessages
-
       })
     })
     EventManager.getAllEvent().then(event => {
@@ -51,8 +55,15 @@ export default class ApplicationViews extends Component {
         tasks: tasks
       })
     })
+    UserManager.getAllUsers().then(users => {
+      this.setState({
+        users: users
+      })
+    })
   }
 
+
+  
 
 
   editMessage = (editedMessage) => {
@@ -64,6 +75,10 @@ export default class ApplicationViews extends Component {
         })
       })
   }
+              postUser = (newUser) => {
+                return UserManager.postUser(newUser)
+                
+              }
               deleteMessage = (id) => {
                 return MessageManager.deleteMessage(id)
                 .then(messages => this.setState({
@@ -81,12 +96,21 @@ export default class ApplicationViews extends Component {
                   )
               }
 
+              editMessage = (editedMessage) => {
+                return MessageManager.putMessage(editedMessage)
+                .then(() => MessageManager.getAllMessages())
+                .then(messages => {
+                  this.setState({
+                    messages: messages
+                  })
+                });
+              };
 
-  deleteNews = (id) => {
-    return NewsManager.removeAndListNews(id)
-      .then(articles => this.setState({
-        articles: articles
-      })
+                deleteNews = (id) => {
+                return NewsManager.removeAndListNews(id)
+                .then(articles => this.setState({
+          articles: articles
+        })
       )
 
   }
@@ -125,58 +149,100 @@ export default class ApplicationViews extends Component {
     )
    }
 
+   editNews = (editedNews) => {
+    return NewsManager.putNews(editedNews)
+    .then(() => NewsManager.getAllNews())
+    .then(articles => {
+      this.setState({
+        articles: articles
+      })
+    });
+  };
+
 
 
   render() {
     return (
       <React.Fragment>
 
-        <Route
-          exact path="/login" render={(props) => {
-            return null
-            // Remove null and return the component which will handle authentication
-          }}
-        />
 
         <Route
+          exact path="/login" render={props => {
+            return <Login users={this.state.users} {...props} postUser={this.postUser} getAllUsers={this.getAllUsers} />
+
+          }}
+        />
+        <Route 
+           path="/register" render={props => {
+             return <RegisterForm users={this.state.users} {...props} postUser={this.postUser}/>
+           }}
+        />
+        <Route
           exact path="/" render={props => {
+            if(this.isAuthenticated()) {
             return <NewsList {...props}
             deleteNews={this.deleteNews}
             addNews={this.addNews}
-            articles={this.state.articles} />
-            // Remove null and return the component which will show news articles
-          }}
+            articles={this.state.articles}/>
+
+          } else {
+            return <Redirect to="/login"/>
+          }
+
+        }}
         />
 
         <Route
           exact path="/articles/new" render={props => {
+            if(this.isAuthenticated()) {
             return <NewsForm {...props} articles={this.state.articles}
             addNews={this.addNews} />
+          } else {
+            return <Redirect to="/login"/>
           }
-        }
+        }}
+        />
+
+        <Route
+          path="/articles/:articleId(\d+)/edit" render={props => {
+            return <EditNewsForm {...props} articles={this.state.articles} editNews={this.editNews}/>
+         }}
         />
         <Route
           path="/friends" render={props => {
+            if(this.isAuthenticated()) {
             return null
             // Remove null and return the component which will show list of friends
-          }}
+          }else {
+            return <Redirect to="/login"/>
+          }
+        }
+        }
         />
 
         <Route
           exact path="/messages" render={props => {
+            if(this.isAuthenticated()) {
             return <NewMessage {...props} messages={this.state.messages} deleteMessage={this.deleteMessage}
               postMessage={this.postMessage} makeNewMessage={this.makeNewMessage} />
             // Remove null and return the component which will show the messages
-          }}
+          }else {
+            return <Redirect to="/login"/>
+          }
+        }}
         />
 
         <Route
-          exact path="/events" render={props => {
-            return (
-              // Remove null and return the component which will show the user's events
-              <EventsList {...props} deleteEvent={this.deleteEvent} events={this.state.events} />
-            )
-          }}
+         exact path="/events" render={props => {
+            if(this.isAuthenticated()) {
+              return (
+                // Remove null and return the component which will show the user's events
+                <EventsList {...props} deleteEvent={this.deleteEvent} events={this.state.events} />
+              )
+          }else {
+            return <Redirect to="/login"/>
+          }
+        }}
         />
         <Route path="/events/new" render={(props) => {
           return <EventsForm {...props}
@@ -191,15 +257,23 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/tasks" render={props => {
+            if(this.isAuthenticated()) {
             return <TaskList tasks={this.state.tasks} />
             // Remove null and return the component which will show the user's tasks
-          }}
+          } else {
+            return <Redirect to="/login"/>
+          }
+        }}
         />
         <Route
           path="/messages/:messageId(\d+)/edit" render={props => {
-            return <MessageEditForm {...props} messages={this.state.messages} editMessage={this.editMessage} />
+            if(this.isAuthenticated()) {
+            return <MessageEditForm {...props} messages={this.state.messages} editMessage={this.editMessage}/>
+            } else {
+              return <Redirect to="/login"/>
+            }
           }}
-        />
+          />
 
       </React.Fragment>
     );
