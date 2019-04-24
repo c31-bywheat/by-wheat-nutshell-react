@@ -16,5 +16,9 @@ postUser(newUser) {
         },
         body: JSON.stringify(newUser)
     }).then(user => user.json())
+},
+getAllUsers() {
+    return fetch(`${apiUrl}/users`)
+    .then(users => users.json())
 }
 }

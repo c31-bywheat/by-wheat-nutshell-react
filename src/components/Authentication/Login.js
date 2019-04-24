@@ -6,7 +6,7 @@ export default class Login extends Component {
 
     state = {
         email: "",
-        password: ""
+        password: "",
     }
 
   
@@ -19,16 +19,21 @@ export default class Login extends Component {
    
     handleLogin = () => {
         // e.preventDefault()
-
-        
-        sessionStorage.setItem(
-            "credentials",
-            JSON.stringify({
-                email: this.state.email,
-                password: this.state.password
-            })
-        )
-            this.props.history.push("/")
+        fetch("http://localhost:5002/users")
+            .then(response => response.json())
+        .then(users => {
+            let loginUser = users.find(element =>
+                element.email.toLowerCase() === this.state.email.toLowerCase() 
+                && element.password.toLowerCase() === this.state.password.toLowerCase())
+                if(loginUser) {
+                    sessionStorage.setItem("userId", loginUser.id)
+                    this.props.history.push("/")
+                } else {
+                    window.alert("Login information not found. Please try again or register an account.")
+                }
+        })
+           
+            
     }
 
     render() {

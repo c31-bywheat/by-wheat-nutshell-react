@@ -20,7 +20,7 @@ import UserManager from "../modules/UserManager"
 
 export default class ApplicationViews extends Component {
 
-  isAuthenticated = () => sessionStorage.getItem("credentials") !== null
+  isAuthenticated = () => sessionStorage.getItem("userId") !== null
 
   state = {
     "users": [],
@@ -53,8 +53,15 @@ export default class ApplicationViews extends Component {
         tasks: tasks
       })
     })
+    UserManager.getAllUsers().then(users => {
+      this.setState({
+        users: users
+      })
+    })
   }
 
+
+  
 
 
   editMessage = (editedMessage) => {
@@ -151,7 +158,7 @@ export default class ApplicationViews extends Component {
 
         <Route
           exact path="/login" render={props => {
-            return <Login users={this.state.users} {...props} postUser={this.postUser}/>
+            return <Login users={this.state.users} {...props} postUser={this.postUser} getAllUsers={this.getAllUsers} />
 
           }}
         />
