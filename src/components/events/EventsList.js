@@ -33,7 +33,7 @@ export default class EventsList extends Component {
                   </button>
                   <button
                     onClick={() =>
-                      this.props.history.push(`/events/edit`)}
+                      this.props.history.push(`/events/${event.id}/edit`)}
                     className="card-link"
                   >
                     Update

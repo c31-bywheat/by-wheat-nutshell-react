@@ -12,7 +12,7 @@ export default class EventEditForm extends Component {
 
   handleFieldChange = evt => {
     const stateToChange = {};
-    stateToChange[evt.Target.target.id] = evt.target.value;
+    stateToChange[evt.target.id] = evt.target.value;
     this.state(stateToChange);
   };
 
@@ -34,10 +34,12 @@ export default class EventEditForm extends Component {
     }
   };
   componentDidMount() {
-    EventManager.getEvent(this.props.match.params.eventId);
-    this(event => {
+    EventManager.getEvent(this.props.match.params.eventId)
+    .then(event => {
       this.setState({
-        event: event.event
+        name: event.name,
+        location: event.location,
+        date: event.date
       });
     });
   }
@@ -65,12 +67,13 @@ export default class EventEditForm extends Component {
               onClick={this.handleFieldChange}
               id="eventLocation"
               placeholder="Event Location"
+              thi
             />
           </div>
           <div className="form-group">
             <label htmlFor="newDate">Edit Date</label>
             <input
-              type="text"
+              type="date"
               required
               className="form-control"
               onClick={this.handleFieldChange}
