@@ -8,7 +8,11 @@ export default class TaskList extends Component {
         return (
             <React.Fragment>
                 <div className="buttonHolder">
-                    <button className="submitButton btn-primary">ADD TASK</button>
+                    <button className="submitButton btn-primary"
+                        onClick={() => {
+                            this.props.history.push("/tasks/new")
+                        }}
+                    >ADD TASK</button>
                 </div>
                 <div className="taskHolder">
                     {
@@ -17,8 +21,11 @@ export default class TaskList extends Component {
                                 <input type="checkBox"></input>
                                 <h5>{task.item}</h5>
                                 <p>Complete by {task.byDate}</p>
-                                <button className="editButton">Edit</button>
-                                <button className="deleteButton">Delete</button>
+
+                                <button className="editButton" onClick={() =>
+                                this.props.history.push(`/tasks/${task.id}/edit`)}>Edit</button>
+
+                                <button className="deleteButton" onClick={() => this.props.deleteTask(task.id)}>Delete</button>
                             </div>
                         )
                     }
