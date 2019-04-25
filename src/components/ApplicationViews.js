@@ -16,14 +16,10 @@ import TaskList from './tasks/TaskList'
 import TaskManager from '../modules/TaskManager'
 import RegisterForm from "./Authentication/Register"
 import UserManager from "../modules/UserManager"
-
-
-
-
+import TaskForm from "./tasks/TaskForm"
+import TaskEditor from "./tasks/TaskEditor"
 export default class ApplicationViews extends Component {
-
   isAuthenticated = () => sessionStorage.getItem("userId") !== null
-
   state = {
     "users": [],
     "messages": [],
@@ -32,7 +28,6 @@ export default class ApplicationViews extends Component {
     "tasks": [],
     "events": []
   }
-
   componentDidMount() {
     MessageManager.getAllMessages().then(allMessages => {
       this.setState({
@@ -48,9 +43,8 @@ export default class ApplicationViews extends Component {
       this.setState({
         articles: allNews
       })
-
     })
-    TaskManager.getAll().then(tasks => {
+    TaskManager.getAllTasks().then(tasks => {
       this.setState({
         tasks: tasks
       })
@@ -62,10 +56,6 @@ export default class ApplicationViews extends Component {
     })
     
   }
-
-
-
-
   editMessage = (editedMessage) => {
     return MessageManager.putMessage(editedMessage)
       .then(() => MessageManager.getAllMessages())
@@ -85,7 +75,6 @@ export default class ApplicationViews extends Component {
                   messages: messages
                 }))
               }
-
               postMessage = (message) => {
                 return MessageManager.postMessage(message)
                 .then(() => MessageManager.getAllMessages())
@@ -95,7 +84,6 @@ export default class ApplicationViews extends Component {
                   })
                   )
               }
-
               editMessage = (editedMessage) => {
                 return MessageManager.putMessage(editedMessage)
                 .then(() => MessageManager.getAllMessages())
@@ -105,14 +93,12 @@ export default class ApplicationViews extends Component {
                   })
                 });
               };
-
                 deleteNews = (id) => {
                 return NewsManager.removeAndListNews(id)
                 .then(articles => this.setState({
           articles: articles
         })
       )
-
   }
   deleteEvent = (id) => {
     return EventManager.deleteEvent(id)
@@ -138,7 +124,6 @@ export default class ApplicationViews extends Component {
         })
       })
     }
-
    addNews = news => {
     return NewsManager.post(news)
     .then(() => NewsManager.getAllNews())
@@ -148,7 +133,6 @@ export default class ApplicationViews extends Component {
       })
     )
    }
-
    editNews = (editedNews) => {
     return NewsManager.putNews(editedNews)
     .then(() => NewsManager.getAllNews())
@@ -158,18 +142,12 @@ export default class ApplicationViews extends Component {
       })
     });
   };
-
-
-
   render() {
     return (
       <React.Fragment>
-
-
         <Route
           exact path="/login" render={props => {
             return <Login users={this.state.users} {...props} postUser={this.postUser} getAllUsers={this.getAllUsers} />
-
           }}
         />
         <Route 
@@ -184,14 +162,11 @@ export default class ApplicationViews extends Component {
             deleteNews={this.deleteNews}
             addNews={this.addNews}
             articles={this.state.articles}/>
-
           } else {
             return <Redirect to="/login"/>
           }
-
         }}
         />
-
         <Route
           exact path="/articles/new" render={props => {
             if(this.isAuthenticated()) {
@@ -202,7 +177,6 @@ export default class ApplicationViews extends Component {
           }
         }}
         />
-
         <Route
           path="/articles/:articleId(\d+)/edit" render={props => {
             return <EditNewsForm {...props} articles={this.state.articles} editNews={this.editNews}/>
@@ -219,7 +193,6 @@ export default class ApplicationViews extends Component {
         }
         }
         />
-
         <Route
           exact path="/messages" render={props => {
             if(this.isAuthenticated()) {
@@ -231,7 +204,6 @@ export default class ApplicationViews extends Component {
           }
         }}
         />
-
         <Route
          exact path="/events" render={props => {
             if(this.isAuthenticated()) {
@@ -254,17 +226,23 @@ export default class ApplicationViews extends Component {
             return <EventEditForm {...props} editEvent={this.editEvent} events={this.state.events} />
           }}
           />
-
-        <Route
-          path="/tasks" render={props => {
-            if(this.isAuthenticated()) {
-            return <TaskList tasks={this.state.tasks} />
-            // Remove null and return the component which will show the user's tasks
-          } else {
-            return <Redirect to="/login"/>
-          }
-        }}
-        />
+                    <Route
+                    path="/tasks" render={props => {
+                        return <TaskList  {...props} deleteTask={this.deleteTask} tasks={this.state.tasks} />
+                    }}
+                />
+                <Route
+                    exact path="/tasks/new" render={props => {
+                        return <TaskForm {...props}
+                            addTask={this.addTask}
+                            tasks={this.state.tasks} />
+                    }}
+                />
+                <Route
+                    path="/tasks/:taskId(\d+)/edit" render={props => {
+                        return <TaskEditor {...props} tasks={this.state.tasks} editTask={this.editTask} />
+                    }}
+                />
         <Route
           path="/messages/:messageId(\d+)/edit" render={props => {
             if(this.isAuthenticated()) {
@@ -274,7 +252,6 @@ export default class ApplicationViews extends Component {
             }
           }}
           />
-
       </React.Fragment>
     );
   }
