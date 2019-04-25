@@ -60,10 +60,10 @@ export default class ApplicationViews extends Component {
         users: users
       })
     })
+    
   }
 
 
-  
 
 
   editMessage = (editedMessage) => {
@@ -223,7 +223,7 @@ export default class ApplicationViews extends Component {
         <Route
           exact path="/messages" render={props => {
             if(this.isAuthenticated()) {
-            return <NewMessage {...props} messages={this.state.messages} deleteMessage={this.deleteMessage}
+            return <NewMessage {...props}  messages={this.state.messages} deleteMessage={this.deleteMessage}
               postMessage={this.postMessage} makeNewMessage={this.makeNewMessage} />
             // Remove null and return the component which will show the messages
           }else {
