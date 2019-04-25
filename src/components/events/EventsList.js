@@ -13,7 +13,7 @@ export default class EventsList extends Component {
               this.props.history.push("/events/new");
             }}
           >
-            Add Event
+            Please Add Event you like!
           </button>
         </div>
 
