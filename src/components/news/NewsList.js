@@ -3,6 +3,9 @@ import "../news/News.css"
 
 export default class NewsList extends Component {
     render () {
+        let currentId = sessionStorage.getItem("userId");
+        currentId = parseInt(currentId)
+const currentArticles = this.props.articles.filter(article => article.userId === currentId)
         return (
          <article className="header">
             <h1>News</h1>
@@ -16,8 +19,11 @@ export default class NewsList extends Component {
                     </button>
                 </div>
                 <section className="content News">
-            {
-                this.props.articles.map(article =>
+            
+            {   
+                
+                currentArticles.map(article =>
+                    
                     <div key={article.id} className="card">
                         <div className="card-body"> {article.title}
                         {article.synopsis} {article.url}{article.timestamp}

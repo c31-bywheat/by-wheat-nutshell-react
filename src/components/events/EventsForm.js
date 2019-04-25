@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import "./events.css"
 
+let currentId = sessionStorage.getItem("userId");
+        currentId = parseInt(currentId)
+
+
 export default class EventsForm extends Component {
   // Set initial state
   state = {
     name: "",
     location: "",
-    date: ""
+    date: "",
+    userId: ""
   };
 
   // Update state whenever an input field is edited
