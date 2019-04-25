@@ -6,9 +6,12 @@
 }
 .events {
     background-color: aqua;
+    justify-content: center;
     text-align: center;
-    width: 30%;
+    width: 340px;
     white-space: nowrap;
     padding: 5px;
 
 }
+
+
