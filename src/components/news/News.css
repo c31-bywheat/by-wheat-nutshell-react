@@ -2,7 +2,7 @@
    margin-top: 50px;
    }
 
-   .eventButton{
+   .NewsButton{
        display: flex;
        justify-content: center;
        padding-top: 10px;
@@ -11,16 +11,16 @@
     .content {
        display: flex;
        flex-flow: row wrap;
-       justify-content: space-between;
+       justify-content: row;
        align-content: center;
-       background-color: aqua;
+
        text-align: center;
        width: 100%;
        white-space: nowrap;
        padding: 5px;
 
     }
-    .card-body {
+    .card {
        display: flex;
        width: 240px;
        height: 240px;
