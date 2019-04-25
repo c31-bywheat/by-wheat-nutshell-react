@@ -8,7 +8,7 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    align-items: center;
+    align-content: center;
     background-color: aqua;
     text-align: center;
     width: 100%;
@@ -21,6 +21,24 @@
     width: 240px;
     height: 240px;
     text-align: center;
+
+}
+.card-title {
+    text-align: center;
+     justify-content: space-between;
+}
+.card-edit {
+    background-color: green;
+    color: white;
+    align-content: center;
+}
+.card-delete {
+    background-color:red; 
+    color: white;
+}
+.btn-success {
+    background-color: blue;
+    color: white;
 }
 
 
