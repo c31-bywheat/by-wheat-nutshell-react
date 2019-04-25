@@ -3,6 +3,9 @@ import "./events.css";
 
 export default class EventsList extends Component {
   render() {
+    let currentId = sessionStorage.getItem("userId");
+        currentId = parseInt(currentId)
+const currentEvents = this.props.events.filter(event => event.userId === currentId)
     return (
       <React.Fragment>
         <div className="eventButton">
@@ -18,7 +21,7 @@ export default class EventsList extends Component {
         </div>
 
         <article className="events">
-          {this.props.events.map(event => (
+          {currentEvents.map(event => (
             <div key={event.id} className="card">
               <div className="card-body">
                 <section className="card-title">

@@ -7,6 +7,8 @@
 }
 
 .deleteButton{
+    display: flex;
+    justify-content: flex-end;
     font-size: 12px;
     background-color: #50626e;
     color: white;
@@ -22,4 +24,23 @@
     padding: 0px 0px;
     width: 50px;
     height: 25px;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+  width: 750px;
+  position: relative;
+  top: 20px;
+  height: 500px;
+  left: 300px;
+  margin-top: 20px;
+}
+
+.card {
+    margin-bottom: 10px;
+  width: 60%;
+  height: 100px;
+  margin-top: 5px;
+  background: white;
 }

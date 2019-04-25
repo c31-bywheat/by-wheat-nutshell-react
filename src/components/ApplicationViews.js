@@ -29,9 +29,9 @@ export default class ApplicationViews extends Component {
     "events": []
   }
   componentDidMount() {
-    MessageManager.getAllMessages().then(allMessages => {
+    MessageManager.getAllMessages().then(messages => {
       this.setState({
-        messages: allMessages
+        messages: messages
       })
     })
     EventManager.getAllEvent().then(event => {

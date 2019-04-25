@@ -5,6 +5,9 @@ export default class TaskList extends Component {
 
     complete
     render() {
+        let currentId = sessionStorage.getItem("userId");
+        currentId = parseInt(currentId)
+const currentTasks = this.props.tasks.filter(task => task.userId === currentId)
         return (
             <React.Fragment>
                 <div className="buttonHolder">
@@ -16,7 +19,7 @@ export default class TaskList extends Component {
                 </div>
                 <div className="taskHolder">
                     {
-                        this.props.tasks.map(task =>
+                        currentTasks.map(task =>
                             <div key={task.id} className="taskBox">
                                 <input type="checkBox"></input>
                                 <h5>{task.item}</h5>

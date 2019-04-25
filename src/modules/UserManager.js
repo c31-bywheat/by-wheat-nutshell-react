@@ -20,5 +20,6 @@ postUser(newUser) {
 getAllUsers() {
     return fetch(`${apiUrl}/users`)
     .then(users => users.json())
-}
+},
+
 }

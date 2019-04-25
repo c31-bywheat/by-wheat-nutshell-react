@@ -1,11 +1,18 @@
 import React, { Component } from "react";
 
+
+
+let currentId = sessionStorage.getItem("userId");
+        currentId = parseInt(currentId)
+
+
 export default class NewsForm extends Component {
     // Set initial state
     state = {
       title: "",
       synopsis: "",
-      url: ""
+      url: "",
+      userId: ""
     };
 
     // Update state whenever an input field is edited
@@ -21,7 +28,8 @@ export default class NewsForm extends Component {
         title: this.state.title,
         synopsis: this.state.synopsis,
         url: this.state.url,
-        timestamp: new Date()
+        timestamp: new Date(),
+        userId: currentId
 
     }
     this.props

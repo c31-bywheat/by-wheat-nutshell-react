@@ -18,12 +18,12 @@ export default class NewsList extends Component {
                 <section className="content News">
             {
                 this.props.articles.map(article =>
-                    <div key={article.id} className="card">
+                    <div key={article.id} >
                         <div className="card-body">
-                        <h3 className="card-title">
+                        <section className="card-title">
                         <h5>{article.title}</h5>
                         <p>{article.synopsis}</p>
-                        <p><a href={`http://${article.url}`} target="_blank">{article.url}</a></p>
+                        <p><a href={`http://${article.url}`} target="_blank" rel="noopener noreferrer">{article.url}</a></p>
                         <p className="timestamp">{article.timestamp}</p>
                                 <button
                                     onClick={() => this.props.deleteNews(article.id)}
@@ -31,7 +31,7 @@ export default class NewsList extends Component {
                                 <button
                                     onClick={() => this.props.history.push(`/articles/${article.id}/edit`)}
                                     className="card-edit">Edit</button>
-                            </h3>
+                            </section>
                         </div>
                     </div>
                 )

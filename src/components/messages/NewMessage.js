@@ -36,13 +36,18 @@ export default class NewMessage extends Component {
       }
 
       render() {
+        let currentId = sessionStorage.getItem("userId");
+        currentId = parseInt(currentId)
         return (
             <React.Fragment>
                 <div className="messages">
                     {
                         this.props.messages.map(message =>
                             <div key={message.id} className="card">
-                            {message.message}
+                            <div className="username">
+                            {message.user.name}
+                            </div>
+                            {message.message} 
                             <button
                                             onClick={() => this.props.deleteMessage(message.id)}
                                             className="deleteButton">Delete</button>
@@ -52,7 +57,9 @@ export default class NewMessage extends Component {
                             </div>
 
                             )
+                        
                     }
+                    
                 </div>
 
             <form className="messageForm">

@@ -4,7 +4,7 @@ const apiURL = "http://localhost:5002"
 
 export default {
     getAllMessages() {
-        return fetch(`${apiURL}/messages`)
+        return fetch(`${apiURL}/messages?_expand=user`)
         .then(messages => messages.json())
     },
     getOneMessage(id) {
