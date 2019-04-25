@@ -3,9 +3,6 @@ import "../news/News.css"
 
 export default class NewsList extends Component {
     render () {
-        let currentId = sessionStorage.getItem("userId");
-        currentId = parseInt(currentId)
-const currentArticles = this.props.articles.filter(article => article.userId === currentId)
         return (
          <article className="header">
             <h1>News</h1>
@@ -19,17 +16,14 @@ const currentArticles = this.props.articles.filter(article => article.userId ===
                     </button>
                 </div>
                 <section className="content News">
-            
-            {   
-                
-                currentArticles.map(article =>
-                    
+            {
+                this.props.articles.map(article =>
                     <div key={article.id} className="card">
                         <div className="card-body">
                         <h3 className="card-title">
-                        <h5>{article.title}</h5>
+                        {article.title}
                         <p>{article.synopsis}</p>
-                        <p><a href={`http://${article.url}`} target="_blank">{article.url}</a></p>
+                        <p><a href={`http://${article.url}`} target="_blank" rel="noopener noreferrer">{article.url}</a></p>
                         <p className="timestamp">{article.timestamp}</p>
                                 <button
                                     onClick={() => this.props.deleteNews(article.id)}
