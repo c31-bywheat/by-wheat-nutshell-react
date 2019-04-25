@@ -1,7 +1,7 @@
 const remoteURL = "http://localhost:5002"
 
 export default {
-  get(id) {
+  getOneArticle(id) {
     return fetch(`${remoteURL}/articles/${id}`).then(e => e.json())
   },
   getAllNews() {
@@ -23,5 +23,15 @@ post(newNews) {
     },
     body: JSON.stringify(newNews)
   }).then(data => data.json())
+},
+
+putNews(editedNews) {
+  return fetch(`${remoteURL}/articles/${editedNews.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(editedNews)
+  }).then(data => data.json());
 }
 }

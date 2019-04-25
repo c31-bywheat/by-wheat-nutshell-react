@@ -60,7 +60,7 @@ export default class EventsForm extends Component {
           <div className="form-group">
             <label htmlFor="date">Event Date</label>
             <input
-              type="text"
+              type="date"
               required
               className="form-control"
               onChange={this.handleFieldChange}

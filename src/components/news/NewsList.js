@@ -20,11 +20,14 @@ export default class NewsList extends Component {
                 this.props.articles.map(article =>
                     <div key={article.id} className="card">
                         <div className="card-body"> {article.title}
-                        {article.synopsis} {article.url}
+                        {article.synopsis} {article.url}{article.timestamp}
                             <h5 className="card-title">
                                 <button
                                     onClick={() => this.props.deleteNews(article.id)}
                                     className="card-link">Delete</button>
+                                <button
+                                    onClick={() => this.props.history.push(`/articles/${article.id}/edit`)}
+                                    className="editButton">Edit</button>
                             </h5>
                         </div>
                     </div>
