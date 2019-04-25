@@ -1,3 +1,8 @@
+.taskTitle{
+        text-decoration-line: line-through;
+}
+
+
 .buttonHolder {
         margin-top: 10px;
         display: flex;
@@ -5,12 +10,6 @@
         margin-bottom: 10px;
 }
 
-
-.button {
-        background-color: blue;
-        border-radius: 5px;
-        margin-bottom: 5px;
-}
 .deleteButton {
         background-color: #50626e;
         border-radius: 5px;
@@ -26,9 +25,14 @@
         -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
         -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
         box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-        margin-bottom: 3px;
+        margin-bottom: 10px;
         padding-left: 10px;
         background-color: rgb(241, 241, 241);
         border: none;
         border-radius: 5px;
 }
+
+ .item-form {
+         border-radius: 5px;
+         width: 50%;
+ }

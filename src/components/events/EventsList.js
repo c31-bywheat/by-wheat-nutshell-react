@@ -13,7 +13,7 @@ export default class EventsList extends Component {
               this.props.history.push("/events/new");
             }}
           >
-            Add Event
+            Please Add Event you like!
           </button>
         </div>
 
@@ -27,14 +27,14 @@ export default class EventsList extends Component {
                   <p>{event.date}</p>
                   <button
                     onClick={() => this.props.deleteEvent(event.id)}
-                    className="card-link"
+                    className="card-delete"
                   >
                     Delete
                   </button>
                   <button
                     onClick={() =>
                       this.props.history.push(`/events/${event.id}/edit`)}
-                    className="card-link"
+                    className="card-edit"
                   >
                     Update
                   </button>
