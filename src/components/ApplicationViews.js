@@ -4,6 +4,7 @@ import NewsList from "./news/NewsList";
 import NewsManager from "../modules/NewsManager";
 import EventsList from "./events/EventsList";
 import EventsForm from "./events/EventsForm"
+import EventEditForm from "./events/EventEditForm"
 import EventManager from "../modules/EventManager";
 import MessageManager from "../modules/MessageManager"
 import NewsForm from "../components/news/NewsForm"
@@ -15,6 +16,7 @@ import TaskList from './tasks/TaskList'
 import TaskManager from '../modules/TaskManager'
 import RegisterForm from "./Authentication/Register"
 import UserManager from "../modules/UserManager"
+
 
 
 
@@ -127,7 +129,15 @@ export default class ApplicationViews extends Component {
         })
       );
   }
-
+    editEvent = (editedEvents) => {
+      return EventManager.putEvent(editedEvents)
+      .then(()=> EventManager.getAllEvent())
+      .then(events =>{
+        this.setState({
+          events: events
+        })
+      })
+    }
 
    addNews = news => {
     return NewsManager.post(news)
@@ -239,6 +249,11 @@ export default class ApplicationViews extends Component {
             postEvent={this.postEvent}
             events={this.state.events} />
         }} />
+        <Route
+          path="/events/:eventId(\d+)/edit" render={props => {
+            return <EventEditForm {...props} editEvent={this.editEvent} events={this.state.events} />
+          }}
+          />
 
         <Route
           path="/tasks" render={props => {
